@@ -4,9 +4,9 @@ namespace Softcomtecnologia\SoftsendClient\Supports;
 
 use Softcomtecnologia\Api\Provider\SoftcomProvider;
 use Softcomtecnologia\SoftsendClient\Configs\SoftsendConfigs;
-use Softcomtecnologia\SoftsendClient\Contracts\SupportInterface;
+use Softcomtecnologia\SoftsendClient\Contracts\SupportAbstract;
 
-class StoreClient implements SupportInterface
+class StoreClient extends SupportAbstract
 {
     /**
      * @var string
@@ -29,11 +29,6 @@ class StoreClient implements SupportInterface
     protected $optionsProvider = [
         'domain' => SoftsendConfigs::URL_DOMAIN,
     ];
-
-    /**
-     * @var bool
-     */
-    protected $responseJson = true;
 
 
     /**
@@ -62,19 +57,6 @@ class StoreClient implements SupportInterface
             ['client_cnpj' => $this->clientCnpj, 'name' => $this->name]
         );
 
-        return json_decode($response, $this->responseJson);
-    }
-
-
-    /**
-     * @param $bool
-     *
-     * @return $this
-     */
-    public function responseJson($bool)
-    {
-        $this->responseJson = !!$bool;
-
-        return $this;
+        return $this->prepareResponse($response);
     }
 }
