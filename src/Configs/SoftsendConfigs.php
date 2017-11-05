@@ -9,9 +9,11 @@ class SoftsendConfigs
 
     const URL_STORE_CLIENT = 'add-client';
 
-    const RESPONSE_TYPE_JSON = 'json';
+    const URL_AUTENTICATION_CLIENT = 'autenticate';
 
-    const RESPONSE_TYPE_STRING = 'string';
+    const RESPONSE_TYPE_ARRAY = 'array';
+
+    const RESPONSE_TYPE_RAW = 'json';
 
     const RESPONSE_TYPE_OBJECT = 'object';
 }
