@@ -2,7 +2,6 @@
 
 namespace Softcomtecnologia\SoftsendClient\Supports;
 
-use Softcomtecnologia\Api\Provider\SoftcomProvider;
 use Softcomtecnologia\SoftsendClient\Configs\SoftsendConfigs;
 use Softcomtecnologia\SoftsendClient\Contracts\SupportAbstract;
 
@@ -18,18 +17,6 @@ class StoreClient extends SupportAbstract
      */
     protected $name;
 
-    /**
-     * @var SoftcomProvider
-     */
-    protected $provider;
-
-    /**
-     * @var array
-     */
-    protected $optionsProvider = [
-        'domain' => SoftsendConfigs::URL_DOMAIN,
-    ];
-
 
     /**
      * @param string $clientCnpj
@@ -41,11 +28,7 @@ class StoreClient extends SupportAbstract
         $this->clientCnpj = $clientCnpj;
         $this->name = $name;
 
-        if ($optionsProvider) {
-            $this->optionsProvider = $optionsProvider;
-        }
-
-        $this->provider = new SoftcomProvider($this->optionsProvider);
+        parent::__construct($optionsProvider);
     }
 
 
