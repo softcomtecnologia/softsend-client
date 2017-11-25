@@ -2,55 +2,22 @@
 
 namespace Softcomtecnologia\SoftsendClient\Supports;
 
-use Softcomtecnologia\Api\Provider\SoftcomProvider;
 use Softcomtecnologia\SoftsendClient\Configs\SoftsendConfigs;
-use Softcomtecnologia\SoftsendClient\Contracts\SupportInterface;
+use Softcomtecnologia\SoftsendClient\Contracts\SupportAbstract;
 
-class StoreClient implements SupportInterface
+class StoreClient extends SupportAbstract
 {
-    /**
-     * @var string
-     */
-    protected $clientCnpj;
 
     /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var SoftcomProvider
-     */
-    protected $provider;
-
-    /**
-     * @var array
-     */
-    protected $optionsProvider = [
-        'domain' => SoftsendConfigs::URL_DOMAIN,
-    ];
-
-    /**
-     * @var bool
-     */
-    protected $responseJson = true;
-
-
-    /**
-     * @param string $clientCnpj
-     * @param string $name
      * @param array  $optionsProvider
      */
-    public function __construct($clientCnpj, $name, array $optionsProvider = [])
+    public function __construct(array $optionsProvider = [])
     {
-        $this->clientCnpj = $clientCnpj;
-        $this->name = $name;
-
-        if ($optionsProvider) {
-            $this->optionsProvider = $optionsProvider;
+        if (!isset($optionsProvider['domain'])) {
+            $optionsProvider['domain'] = SoftsendConfigs::URL_DOMAIN;
         }
 
-        $this->provider = new SoftcomProvider($this->optionsProvider);
+        parent::__construct($optionsProvider);
     }
 
 
@@ -59,22 +26,9 @@ class StoreClient implements SupportInterface
         $response = $this->provider->post(
             '',
             SoftsendConfigs::URL_STORE_CLIENT,
-            ['client_cnpj' => $this->clientCnpj, 'name' => $this->name]
+            $this->optionsProvider
         );
 
-        return json_decode($response, $this->responseJson);
-    }
-
-
-    /**
-     * @param $bool
-     *
-     * @return $this
-     */
-    public function responseJson($bool)
-    {
-        $this->responseJson = !!$bool;
-
-        return $this;
+        return $this->prepareResponse($response);
     }
 }
