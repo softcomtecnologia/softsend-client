@@ -11,6 +11,10 @@ class SoftsendConfigs
 
     const URL_AUTENTICATION_CLIENT = 'autenticate';
 
+    const URL_SEND_EMAIL = 'send-email';
+
+    const URL_SEND_SMS = 'send-sms';
+
     const RESPONSE_TYPE_ARRAY = 'array';
 
     const RESPONSE_TYPE_RAW = 'json';

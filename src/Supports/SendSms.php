@@ -6,15 +6,16 @@ use Softcomtecnologia\Api\Exceptions\InvalidResponseException;
 use Softcomtecnologia\SoftsendClient\Configs\SoftsendConfigs;
 use Softcomtecnologia\SoftsendClient\Contracts\SupportAbstract;
 
-class AutenticationClient extends SupportAbstract
+class SendSms extends SupportAbstract
 {
 
     /**
+     * @param array  $data
      * @param string $clientId
      * @param string $clientSecret
      * @param string $domain
      */
-    public function __construct($clientId = '', $clientSecret = '', $domain = '')
+    public function __construct(array $data = [], $clientId = '', $clientSecret = '', $domain = '')
     {
         $optionsProvider = get_defined_vars();
 
@@ -26,18 +27,15 @@ class AutenticationClient extends SupportAbstract
     }
 
 
-    /**
-     * @return mixed
-     */
     public function support()
     {
         try {
             $response = $this->provider->post(
                 $this->getToken(),
-                SoftsendConfigs::URL_AUTENTICATION_CLIENT,
+                SoftsendConfigs::URL_SEND_SMS,
                 $this->optionsProvider
             );
-        } catch(InvalidResponseException $e) {
+        } catch (InvalidResponseException $e) {
             $response = $e->getRequestParamsFromString();
         }
 

@@ -7,26 +7,15 @@ use Softcomtecnologia\SoftsendClient\Contracts\SupportAbstract;
 
 class StoreClient extends SupportAbstract
 {
-    /**
-     * @var string
-     */
-    protected $clientCnpj;
 
     /**
-     * @var string
-     */
-    protected $name;
-
-
-    /**
-     * @param string $clientCnpj
-     * @param string $name
      * @param array  $optionsProvider
      */
-    public function __construct($clientCnpj, $name, array $optionsProvider = [])
+    public function __construct(array $optionsProvider = [])
     {
-        $this->clientCnpj = $clientCnpj;
-        $this->name = $name;
+        if (!isset($optionsProvider['domain'])) {
+            $optionsProvider['domain'] = SoftsendConfigs::URL_DOMAIN;
+        }
 
         parent::__construct($optionsProvider);
     }
@@ -37,7 +26,7 @@ class StoreClient extends SupportAbstract
         $response = $this->provider->post(
             '',
             SoftsendConfigs::URL_STORE_CLIENT,
-            ['client_cnpj' => $this->clientCnpj, 'name' => $this->name]
+            $this->optionsProvider
         );
 
         return $this->prepareResponse($response);
