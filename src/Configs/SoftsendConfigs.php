@@ -15,6 +15,10 @@ class SoftsendConfigs
 
     const URL_SEND_SMS = 'send-sms';
 
+    const URL_TYPE_EMAIL = 'api/envios/email/tipos';
+
+    const URL_TYPE_SMS = 'api/envios/sms/tipos';
+
     const RESPONSE_TYPE_ARRAY = 'array';
 
     const RESPONSE_TYPE_RAW = 'json';
