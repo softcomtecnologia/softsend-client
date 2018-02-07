@@ -29,6 +29,10 @@ class SendSms extends SupportAbstract
 
     public function support()
     {
+        if ($this->getDebugMode()) {
+            return $this->responseToDebugMode();
+        }
+
         try {
             $response = $this->provider->post(
                 $this->getToken(),

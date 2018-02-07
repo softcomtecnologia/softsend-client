@@ -2,7 +2,6 @@
 
 namespace Softcomtecnologia\SoftsendClient\Supports;
 
-
 use Softcomtecnologia\Api\Exceptions\InvalidResponseException;
 use Softcomtecnologia\SoftsendClient\Configs\SoftsendConfigs;
 use Softcomtecnologia\SoftsendClient\Contracts\SupportAbstract;
@@ -30,6 +29,10 @@ class SendEmail extends SupportAbstract
 
     public function support()
     {
+        if ($this->getDebugMode()) {
+            return $this->responseToDebugMode();
+        }
+
         try {
             $response = $this->provider->post(
                 $this->getToken(),
