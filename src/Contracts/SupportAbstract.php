@@ -41,6 +41,11 @@ abstract class SupportAbstract implements SupportInterface
      */
     protected $token;
 
+    /**
+     * @var bool
+     */
+    protected $debugMode = false;
+
 
     /**
      * @param array $optionsProvider
@@ -118,5 +123,47 @@ abstract class SupportAbstract implements SupportInterface
         $this->token = $token;
 
         return $this;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function getDebugMode()
+    {
+        return $this->debugMode;
+    }
+
+
+    /**
+     * @param bool $debugMode
+     *
+     * @return $this
+     */
+    public function setDebugMode($debugMode)
+    {
+        $this->debugMode = (bool) $debugMode;
+
+        return $this;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    protected function responseToDebugMode()
+    {
+        $info = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 2)[1];
+        $response = json_encode([
+            'debug_mode'    => $this->getDebugMode(),
+            'message'       => 'Method executed in Debug Mode.',
+            'class'         => $info['class'] . '::' . $info['function'] . '()',
+        ]);
+
+        if ($this->responseType == SoftsendConfigs::RESPONSE_TYPE_RAW) {
+            return $response;
+        }
+
+        return json_decode($response, $this->responseType == SoftsendConfigs::RESPONSE_TYPE_ARRAY);
     }
 }
