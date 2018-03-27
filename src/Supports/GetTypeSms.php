@@ -10,6 +10,12 @@ class GetTypeSms extends SupportAbstract
 {
 
     /**
+     * @var string
+     */
+    protected $urlSend = SoftsendConfigs::URL_TYPE_SMS;
+
+
+    /**
      * @param string $clientId
      * @param string $clientSecret
      * @param string $domain
@@ -25,17 +31,7 @@ class GetTypeSms extends SupportAbstract
      */
     public function support()
     {
-        try {
-            $response = $this->provider->get(
-                $this->getToken(),
-                SoftsendConfigs::URL_TYPE_SMS,
-                $this->optionsProvider
-            );
-        } catch (InvalidResponseException $e) {
-            $response = $e->getRequestParamsFromString();
-        }
-
-        return $this->prepareResponse($response);
+        return $this->sendSupportGet();
     }
 
 }
