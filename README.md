@@ -104,13 +104,15 @@ Cada tipo pode e deve ter suas regras, segue abaixo dois exemplos um para Aniver
     $clientId = 'w9KKB5E_PFdzF1aM-bEL.BJNw-yTnovUFn53.pJe';
     $clientSecret = '5uOuxxzuS-SIT9aMmGd1-C9Jr-XXnONjabYj6WlXbgdURD6aEgoLsOxTVuBz';
     $envios = [
-        'type' => 'ANIVERSARIO',
-        [
-            'nome'  => '<Nome do Usuário>',
-            'data'  => '01/10/1998',
-            'email' => 'email-destinatario@host.com',
-        ],
-        //...
+        'type'   => 'ANIVERSARIO',
+        'emails' => [
+            [
+                'nome'  => '<Nome do Usuário>',
+                'data'  => '01/10/1998',
+                'email' => 'email-destinatario@host.com',
+            ],
+            //...
+        ]
     ];
 
     $support = new SendEmail($envios, $clientId, $clientSecret);
@@ -126,7 +128,17 @@ Cada tipo pode e deve ter suas regras, segue abaixo dois exemplos um para Aniver
             "message" => "OK",
             "human" => "Sucesso",
             "data" => [
-              "Email enviado com sucesso!"
+                "message" => "Emails enviados",
+                "sended" => [
+                    [
+                        "email" => "your@email.com",
+                        //demais campos utilizados por cada type
+                    ],
+                    //...
+                ],
+                "fails" => [
+                    //emails que não foram validados, vazio caso todos tenha validados.
+                ] 
             ]
             "meta" => []
         ]
@@ -141,13 +153,15 @@ Cada tipo pode e deve ter suas regras, segue abaixo dois exemplos um para Aniver
     $clientId = 'w9KKB5E_PFdzF1aM-bEL.BJNw-yTnovUFn53.pJe';
     $clientSecret = '5uOuxxzuS-SIT9aMmGd1-C9Jr-XXnONjabYj6WlXbgdURD6aEgoLsOxTVuBz';
     $envios = [
-        'type' => 'ENVIO_SENHA',
-        [
-            'nome'  => '<Nome do Usuário>',
-            'email' => 'email-destinatario@host.com',
-            'recuperar_senha' => '<token-da-senha>'
+        'type'   => 'ENVIO_SENHA',
+        'emails' => [
+            [
+                'nome'  => '<Nome do Usuário>',
+                'email' => 'email-destinatario@host.com',
+                'recuperar_senha' => '<token-da-senha>'
+            ],
+            //...
         ],
-        //...
     ];
 
     $support = new SendEmail($envios, $clientId, $clientSecret);
@@ -164,7 +178,17 @@ Cada tipo pode e deve ter suas regras, segue abaixo dois exemplos um para Aniver
             "message" => "OK",
             "human" => "Sucesso",
             "data" => [
-              "Email enviado com sucesso!"
+                "message" => "Emails enviados",
+                "sended" => [
+                    [
+                        "email" => "your@email.com",
+                        //demais campos utilizados por cada type
+                    ],
+                    //...
+                ],
+                "fails" => [
+                    //emails que não foram validados, vazio caso todos tenha validados.
+                ] 
             ]
             "meta" => []
         ]
@@ -172,6 +196,59 @@ Cada tipo pode e deve ter suas regras, segue abaixo dois exemplos um para Aniver
 
 ```
 
+* Email com Anexo
+
+```php
+
+    $clientId = 'w9KKB5E_PFdzF1aM-bEL.BJNw-yTnovUFn53.pJe';
+    $clientSecret = '5uOuxxzuS-SIT9aMmGd1-C9Jr-XXnONjabYj6WlXbgdURD6aEgoLsOxTVuBz';
+    $envios = [
+        'type'   => 'ENVIO_SENHA',
+        'emails' => [
+            [
+                'nome'  => '<Nome do Usuário>',
+                'email' => 'email-destinatario@host.com',
+                'recuperar_senha' => '<token-da-senha>'
+            ],
+            //...
+        ],
+        'attachment' => [
+            "<absolute-path-your-application>/your-attachment.pdf",
+            "<absolute-path-your-application>/other-attachment.docx"
+        ],
+    ];
+
+    $support = new SendEmailAttachment($envios, $clientId, $clientSecret);
+    
+    //optional
+    $autentication->responseType(SoftsendConfigs::RESPONSE_TYPE_ARRAY);
+    
+    $response = $support->support();
+    
+    print_r($response);
+    /* array response
+        [
+            "code" => 1,
+            "message" => "OK",
+            "human" => "Sucesso",
+            "data" => [
+                "message" => "Emails enviados",
+                "sended" => [
+                    [
+                        "email" => "your@email.com",
+                        //demais campos utilizados por cada type
+                    ],
+                    //...
+                ],
+                "fails" => [
+                    //emails que não foram validados, vazio caso todos tenha validados.
+                ] 
+            ]
+            "meta" => []
+        ]
+    */
+
+```
 
 #### SMS
 
@@ -186,11 +263,13 @@ Cada tipo pode e deve ter suas regras, segue abaixo dois exemplos um para Aniver
     $clientSecret = '5uOuxxzuS-SIT9aMmGd1-C9Jr-XXnONjabYj6WlXbgdURD6aEgoLsOxTVuBz';
     $envios = [
         'type' => 'ANIVERSARIO',
-        [
-            'nome'  => '<Nome do Usuário>',
-            'fone' => '<numero-com-ddd>',
-        ],
-        //...
+        'sms' => [
+            [
+                'nome'  => '<Nome do Usuário>',
+                'fone' => '<numero-com-ddd>',
+            ],
+            //...
+        ]
     ];
 
     $support = new SendSms($envios, $clientId, $clientSecret);
@@ -206,7 +285,17 @@ Cada tipo pode e deve ter suas regras, segue abaixo dois exemplos um para Aniver
             "message" => "OK",
             "human" => "Sucesso",
             "data" => [
-              "Enviados 10/10. Não enviados 0"
+                "message" => "Enviados 10/10. Não enviados 0",
+                "sended" => [
+                    [
+                        "fone" => "<your-fone>",
+                        //demais campos utilizados por cada type
+                    ],
+                    //...
+                ],
+                "fails" => [
+                    //sms que não foram validados, vazio caso todos tenha validados.
+                ]
             ]
             "meta" => []
         ]
@@ -222,11 +311,13 @@ Cada tipo pode e deve ter suas regras, segue abaixo dois exemplos um para Aniver
     $clientSecret = '5uOuxxzuS-SIT9aMmGd1-C9Jr-XXnONjabYj6WlXbgdURD6aEgoLsOxTVuBz';
     $envios = [
         'type' => 'COBRANCA',
-        [
-            'nome'  => '<Nome do Usuário>',
-            'fone' => '<numero-com-ddd>',
+        'sms' => [
+            [
+                'nome'  => '<Nome do Usuário>',
+                'fone' => '<numero-com-ddd>',
+            ],
+            //...
         ],
-        //...
     ];
 
     $support = new SendSms($envios, $clientId, $clientSecret);
@@ -242,7 +333,17 @@ Cada tipo pode e deve ter suas regras, segue abaixo dois exemplos um para Aniver
             "message" => "OK",
             "human" => "Sucesso",
             "data" => [
-              "Enviados 10/10. Não enviados 0"
+                "message" => "Enviados 10/10. Não enviados 0",
+                "sended" => [
+                    [
+                        "fone" => "<your-fone>",
+                        //demais campos utilizados por cada type
+                    ],
+                    //...
+                ],
+                "fails" => [
+                    //sms que não foram validados, vazio caso todos tenha validados.
+                ]
             ]
             "meta" => []
         ]
