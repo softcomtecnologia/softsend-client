@@ -7,9 +7,12 @@ use Softcomtecnologia\Api\Grant\SoftcomCredentials;
 use Softcomtecnologia\Api\Provider\SoftcomProvider;
 use Softcomtecnologia\Api\Token\SoftcomAccessToken;
 use Softcomtecnologia\SoftsendClient\Configs\SoftsendConfigs;
+use Softcomtecnologia\SoftsendClient\Traits\SendRequestSupport;
 
 abstract class SupportAbstract implements SupportInterface
 {
+    use SendRequestSupport;
+
     /**
      * @var string
      */
@@ -45,6 +48,11 @@ abstract class SupportAbstract implements SupportInterface
      * @var bool
      */
     protected $debugMode = false;
+
+    /**
+     * @var string
+     */
+    protected $urlSend;
 
 
     /**
