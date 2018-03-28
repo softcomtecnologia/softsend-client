@@ -5,8 +5,7 @@ namespace Softcomtecnologia\SoftsendClient\Configs;
 class SoftsendConfigs
 {
 
-    const URL_DOMAIN = 'http://10.0.11.5/laravel/softcomsend/public/softauth';
-    //const URL_DOMAIN = 'http://softcomsend.softcomsistemas.com.br/softauth';
+    const URL_DOMAIN = 'http://softcomsend.softcomsistemas.com.br/softauth';
 
     const URL_STORE_CLIENT = 'add-client';
 
